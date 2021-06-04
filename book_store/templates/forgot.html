@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block base_head %}
+    <title>Forgot Password</title>
+    {% endblock %}
+</head>
+<body>
+    {% block base_body %}
+        <div class="container">
+            <div style="text-align: center"><h1>Enter Login Details...</h1></div>
+            <div style="margin-top:30px; width:300px; ">
+                 <form action="." method="POST">{% csrf_token %}
+
+                     <div class="form-group">
+                        <label for="username">Enter Username:</label>
+                        <input type="text" class="form-control" name="user_name" id="user_name" required/>
+                      </div>
+                     <div class="form-group">
+                        <label for="email">Enter Email address:</label>
+                        <input type="email" class="form-control" name="user_mail" id="user_mail" required/>
+                      </div>
+                     <div class="form-group">
+                        <label for="pwd">Enter New Password:</label>
+                        <input type="password" name="user_password" id="user_password" class="form-control" required/>
+                      </div>
+
+                      <input type="submit" class="btn btn-default" value="Create Password" />
+                 </form>
+            </div>
+        </div>
+        <h1>{{ mess }}</h1>
+    {% endblock %}
+</body>
+</html>

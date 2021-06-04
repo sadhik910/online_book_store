@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block base_head %}
+
+    {% endblock %}
+</head>
+<body>
+    {% block base_body %}
+        <div class="container">
+            <div class="row"><div class="col-sm-12"><h2>Select Items in Cart...</h2></div></div>
+            <h2 style="color: #1c7430">{{ mess }}</h2>
+
+            {% if dis == 'yes' %}
+                <form action="{% url 'cart' %}" method="POST">{% csrf_token %}
+                <div class="row">
+                <div class="col-sm-12">
+                    {% for n in cobj %}
+                        {% for x in bobj %}
+                            {% if n.mail == user_mail and n.book_id == x.id and n.status == 'no' %}
+                                <div class="row">
+                                    <div class="col-sm-12" style="padding:10px; margin-top: 10px; border-bottom:1px solid #C0C0C0; height:250px">
+                                        <div class="row">
+                                            <div class="col-sm-3"  style=" height: 210px; background-repeat:no-repeat; background-size:cover;">
+                                                <img src="..{{ x.book_image.url }}" style=" height: 210px; width:200px;" alt="image"/>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-inline">
+                                                            <label for="check">Select : </label>
+                                                            <input type="checkbox" name="citems" class="form-inline" value="{{ n.id }}" />
+                                                        </div>
+                                                        <h2> {{ x.book_title }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <h4>Author - {{ x.book_author }}</h4>
+                                                        <h4>Publisher - {{ x.book_publisher }}</h4>
+                                                        <h4>ISBN10 - {{ x.book_isbn10 }}</h4>
+                                                        <h4>Price - {{ x.book_price }} Rs (for Single piece)</h4>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <h4>Genre - {{ x.book_category }}</h4>
+                                                        <h4>Year - {{ x.book_year }}</h4>
+                                                        <h4>Language - {{ x.book_language }}</h4>
+                                                        <h4>No of Copies - {{ n.items }}</h4>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+                <div style="margin: 30px 0">
+                    <div style="font-size: 23px" class="form-inline">
+                        <label> <input type="radio" value="cartdel" name="sel" required> Delete Selected Items<span style="margin-right: 30px"></span></label>
+                        <label> <input type="radio" value="cartproceed" name="sel" required> Confirm Selection</label>
+                    </div>
+                    <div>
+                        <input type="submit" value="proceed" class="btn btn-success"/>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+                <h2>Cart is empty</h2>
+            {% endif %}
+        </div>
+    {% endblock %}
+</body>
+</html>

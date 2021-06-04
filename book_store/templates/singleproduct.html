@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block base_head %}
+
+    {% endblock %}
+</head>
+<body>
+{% block base_body %}
+    <div class="container">
+        <div class="row">
+        <form action="{% url 'cart0' %}" method="POST">{% csrf_token %}
+            <div class="col-sm-3">
+                <div>
+                    <img src="../..{{ cn.book_image.url }}" style="height:400px;width:300px;" />
+                </div>
+                <div><br />
+
+                            <input type="submit" value="ADD TO CART" class="btn btn-success form-control" />
+
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-8" style="padding: 20px">
+                <div>
+                    <h1>{{ cn.book_title }}</h1>
+                </div>
+
+                <div>
+                    <h4>Rating - {{ cn.book_rating }} out of 5</h4>
+                    <h4>Author - {{ cn.book_author }}</h4>
+                    <h4>Publisher - {{ cn.book_publisher }}</h4>
+                    <h4>ISBN10 - {{ cn.book_isbn10 }}</h4>
+                    <h4>Genre - {{ cn.book_category }}</h4>
+                    <h4>Year - {{ cn.book_year }}</h4>
+                    <h4>Language - {{ cn.book_language }}</h4>
+                    <h4>Copies Available - {{ cn.book_copies }}</h4>
+                    <h4>Price - {{ cn.book_price }} Rs</h4>
+                    <div class="form-group form-inline">
+                        <label for="select">Select No of items: </label>
+                        <select class="form-control" name="selno">
+                            {% for x in count %}
+                                <option value="{{ x }}">{{ x }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br /><br />
+                <div style="text-align: left">
+                    <div>
+                        <h4>Book Description - </h4>
+                    </div>
+                    <div style="width: 80%">
+                        <p>{{ cn.book_description }}</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row"><h3>Comments...</h3></div>
+                <div class="row container">
+                    {% for x in bcobj %}
+                            <div class="row"></div>
+                            <div class="row">
+                            <h4>User Mail - <span>{{ x.book_user_mail }}</span> </h4>
+                            <p>User Comment - <span>{{ x.book_comment }}</span></p>
+                            </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <form class="form-group" action="{% url 'sprod' prod_id=cn.id  %}" method="POST">{% csrf_token %}
+                        <textarea class="form-control" rows="5" cols="10" name="ctext" placeholder="Enter Comment here"></textarea><br />
+                        <input type="submit" value="comment" class="btn btn-info" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

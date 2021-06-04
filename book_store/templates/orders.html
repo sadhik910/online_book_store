@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block base_head %}
+
+    {% endblock %}
+</head>
+<body>
+    {% block base_body %}
+        <div class="container">
+            <div class="row"><div class="col-sm-12"><h2>order List..</h2></div></div>
+            <div class="row"><div class="col-sm-12"><h3>{{ mess }}</h3></div></div>
+            {% if mess == '' %}
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% for x in oobj %}
+                                    {% if x.order_mail == user_mail %}
+                                        <div class="row">
+                                    <div class="col-sm-12" style="padding:10px; margin-top: 10px; border-bottom:1px solid #C0C0C0; height:250px">
+                                        <div class="row">
+                                            <div class="col-sm-3"  style=" height: 210px; background-repeat:no-repeat; background-size:cover;">
+                                                <img src="..{{ x.order_image.url }}" style=" height: 210px; width:200px;" alt="image"/>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="row"><div class="col-sm-12"><h2>{{ x.order_title }}</h2></div></div>
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <h4>ID - {{ x.id }}</h4>
+                                                        <h4>Author - {{ x.order_author }}</h4>
+                                                        <h4>Publisher - {{ x.order_publisher }}</h4>
+                                                        <h4>ISBN10 - {{ x.order_isbn10 }}</h4>
+                                                        <h4>Price - {{ x.order_price }} Rs</h4>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <h4>Genre - {{ x.order_category }}</h4>
+                                                        <h4>Year - {{ x.order_year }}</h4>
+                                                        <h4>Language - {{ x.order_language }}</h4>
+                                                        <h4>No of Copies - {{ x.order_copies }}</h4>
+                                                        <h4>Rating - {{ x.order_rating }} out of 5</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        {% if dis == 'y' %}
+                            <form action="{% url 'orders' %}" method="POST">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="select">Select ID : </label>
+                            <select name="selid" class="form-control">
+                                {% for x in oobj %}
+                                    {% if x.order_mail == user_mail and x.order_status == 'on' %}
+                                        <option value="{{ x.id }}">{{ x.id }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Select Rating : </label>
+                            <select name="selrating" class="form-control">
+                                <option value="0"> 0 </option>
+                                <option value="1"> 1 </option>
+                                <option value="2"> 2 </option>
+                                <option value="3"> 3 </option>
+                                <option value="4"> 4 </option>
+                                <option value="5"> 5 </option>
+                            </select>
+                        </div>
+                        <div class="form-group"><input class="form-control btn-success btn"  type="submit" value="Add Rating" /></div>
+                    </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endblock %}
+
+</body>
+</html>
